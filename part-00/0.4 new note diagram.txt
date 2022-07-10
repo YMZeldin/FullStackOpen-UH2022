@@ -1,4 +1,4 @@
-title 0.4 New note diagram
+title Exercise 0.4 "new note diagram"
 
 browser->server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note
 server-->browser: HTTP code 302, location: /exampleapp/notes

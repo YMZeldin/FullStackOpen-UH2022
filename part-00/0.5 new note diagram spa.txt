@@ -1,0 +1,17 @@
+title Exercise 0.5 "new note diagram, single page application"
+
+note over browser:
+click on "Save" button causes the form submit event
+browser executes the script defined event handler 
+  for the form submit event (default handling was prevented):
+- pushes new note to the notes list
+- renders notes to display
+end note
+
+browser->server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+
+note over browser:
+browser sends new note to the server as JSON string
+end note
+
+server-->browser: HTTP status code 201 (request successful)
