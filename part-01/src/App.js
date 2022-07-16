@@ -1,7 +1,19 @@
 import logo from './logo.svg';
 import './App.css';
 
+/* To render a React component, start it's name with an uppercase letter */
+const Hello_c = (props) => {
+  return (
+    <div>
+      <p>Hello world!<br/>It is {Date().toString()}</p>
+      <p>Hello {props.name}, you are {props.age} years old</p>
+    </div>
+  )
+}
+
 function App() {
+  const name = "Ann"
+  const age = 29
   return (
     <div className="App">
       <header className="App-header">
@@ -17,6 +29,9 @@ function App() {
         >
           Learn React
         </a>
+        console.log("Fist Hello_c")
+        <Hello_c name="Peter" age="34" />
+        <Hello_c name={name} age={age} />
       </header>
     </div>
   );
