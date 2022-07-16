@@ -2,40 +2,54 @@
 // import './App.css';
 
 const Header_c = (props) => {
-  return (
-    <h1>{props.course}</h1>
-  )
+  // console.log(props)
+  return <h1>{props.course}</h1>
 }
 
 const Content_c = (props) => {
+  // console.log(props.parts)
   return (
-    <p>{props.part} - {props.exercises} exercises</p>
+    <div>
+      <p>{props.parts[0].name} - {props.parts[0].exercises} exercises</p>
+      <p>{props.parts[1].name} - {props.parts[1].exercises} exercises</p>
+      <p>{props.parts[2].name} - {props.parts[2].exercises} exercises</p>  
+    </div>
   )
 }
 
 const Total_c = (props) => {
   return (
-    <p>Total number of exercises - {props.n1 + props.n2 + props.n3}</p>
+    <p>Total number of exercises - {props.parts[0].exercises + 
+      props.parts[1].exercises + props.parts[2].exercises}</p>
   )
 }
+
 function App() {
-  const course = 'Half Stack application development'
-  const part01 = 'Fundamentals of React'
-  const exercises1 = 10
-  const part02 = 'Using props to pass data'
-  const exercises2 = 7
-  const part03 = 'State of a component'
-  const exercises3 = 14
+  const course = {
+    name: 'Half Stack application development',
+    parts: [
+    {
+      name: 'Fundamentals of React',
+      exercises: 10
+    },
+    {
+      name: 'Using props to pass data',
+      exercises:  7
+    },
+    {
+    name: 'State of a component',
+    exercises:  14
+    }
+  ]
+}
 
   return (
     <div>
-      <Header_c course={course} />
-      <Content_c part={part01} exercises={exercises1}/>
-      <Content_c part={part02} exercises={exercises2}/>
-      <Content_c part={part03} exercises={exercises3}/>
-      <Total_c n1={exercises1} n2={exercises2} n3={exercises3}/>
+      <Header_c course={course.name} />
+      <Content_c parts={course.parts} />
+      <Total_c parts={course.parts} />
     </div>
-  );
+  )
 }
 
 export default App;
