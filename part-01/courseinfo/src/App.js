@@ -1,12 +1,12 @@
 // import logo from './logo.svg';
 // import './App.css';
 
-const Header_c = (props) => {
+const Header = (props) => {
   // console.log(props)
   return <h1>{props.course}</h1>
 }
 
-const Content_c = (props) => {
+const Content = (props) => {
   // console.log(props.parts)
   return (
     <div>
@@ -17,7 +17,7 @@ const Content_c = (props) => {
   )
 }
 
-const Total_c = (props) => {
+const Total = (props) => {
   return (
     <p>Total number of exercises - {props.parts[0].exercises + 
       props.parts[1].exercises + props.parts[2].exercises}</p>
@@ -45,9 +45,9 @@ function App() {
 
   return (
     <div>
-      <Header_c course={course.name} />
-      <Content_c parts={course.parts} />
-      <Total_c parts={course.parts} />
+      <Header course={course.name} />
+      <Content parts={course.parts} />
+      <Total parts={course.parts} />
     </div>
   )
 }
