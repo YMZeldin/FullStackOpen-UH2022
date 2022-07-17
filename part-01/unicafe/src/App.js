@@ -17,7 +17,13 @@ const Statistics = ({ good, neutral, bad }) => {
 
   const StatisticLine = ({ comment, value, units }) => {
     return(
-      <div>{comment} = {value} {units}</div>
+      // <div>{comment} = {value} {units}</div>
+      <tbody>
+        <tr>
+          <td>{comment}</td>
+          <td>{value} {units}</td>
+        </tr>
+      </tbody>
     )
   }
 
@@ -26,14 +32,14 @@ const Statistics = ({ good, neutral, bad }) => {
     )
   }
   return(
-    <div>
+    <table>
       <StatisticLine comment='good' value={good} />
       <StatisticLine comment='neutral' value={neutral} />
       <StatisticLine comment='bad' value={bad} />
       <StatisticLine comment='all' value={total} />
       <StatisticLine comment='average' value={average} />
       <StatisticLine comment='positive' value={positive} units='%' />
-    </div>
+    </table>
   )
 }
 
