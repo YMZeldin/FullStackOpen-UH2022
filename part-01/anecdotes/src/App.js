@@ -34,20 +34,38 @@ const App = () => {
   }
 
   const vote = () => {
-    const copy = [...allVotes]
-    copy[selected] += 1
-    setVote(copy)
-    console.log('allVotes', allVotes)
+    const copyAllVotes = [...allVotes]
+    copyAllVotes[selected] += 1
+    // console.log('copyAllVotes', copyAllVotes)
+    setVote(copyAllVotes)
+  }
+
+  const AnecdoteWithMostVotes = () => {
+    const totalVotes = allVotes.reduce((sum, current) => sum + current, 0)
+    // console.log('totalVotes', totalVotes)
+    if (totalVotes === 0) {return(
+      <div>No votes yet</div>
+      )
+    }
+    const maxVoteIndex = allVotes.indexOf(Math.max(...allVotes))
+    return(
+      <div>
+        <div>{anecdotes[maxVoteIndex]}</div>
+        <div>has {allVotes[maxVoteIndex]} votes</div>
+      </div>
+    )
   }
 
   return (
     <div>
-      <h1>anecdotes</h1>
+      <h1>Anecdote of the day</h1>
       <div>{anecdotes[selected]}</div>
       <div>has {allVotes[selected]} votes</div>
       <br />
       <Button handleClick={vote} text='vote' />
       <Button handleClick={nextAnecdote} text='next anecdote' />
+      <h1>Anecdote with most votes</h1>
+      <AnecdoteWithMostVotes />
     </div>
   )
 }
