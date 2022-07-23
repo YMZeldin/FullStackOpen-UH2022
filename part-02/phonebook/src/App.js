@@ -1,20 +1,22 @@
 import {useState} from 'react'
 // import Note from './components/Note'
 
-const App = ({ initialNotes }) => {
+const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas' }
+    { name: 'Arto Hellas', number: '040-1234567' },
+    { name: 'Ada Lovelace', number: '39-44-5323523'},
+    { name: 'Dan Abramov', number: '12-43-234345'},
+    { name: 'Mary Poppendieck', number: '39-23-6423122'}
   ]) 
   const [newName, setNewName] = useState('')
+  const [newNumber, setNewNumber] = useState('')
+  const [newFilter, setNewFilter] = useState('')
   
-  /* const [notes, setNotes] = useState(initialNotes)
-  const [newNote, setNewNote] = useState('')
-  const [showAll, setShowAll] = useState(true) */
-  
-  const addName = (event) => {
+    const addPerson = (event) => {
     event.preventDefault()
     const tmpObject = {
-      name: newName
+      name: newName,
+      number: newNumber
     }
   
     // if name exists, nameExist >= 0, otherwise nameExist === -1
@@ -23,56 +25,59 @@ const App = ({ initialNotes }) => {
     console.log('button clicked', event.target)
     console.log('newName', newName, 'nameExist', nameExist)
     
-    if (nameExist >= 0) {
+    if (nameExist !== -1) {
       window.alert(`${newName} is already added to phonebook`)
       return
     }
     
     setPersons(persons.concat(tmpObject))
     setNewName('')
+    setNewNumber('')
   }
 
   const handleNameChange = (event) => {
-    // console.log(event.target.value)
+    // console.log('handleNameChange newName =', event.target.value)
     setNewName(event.target.value)
   }
 
-  /*const notesToShow = showAll ? notes : notes.filter(note => note.important) */
+  const handleNumberChange = (event) => {
+    // console.log('handleNumberChange newNumber =', event.target.value)
+    setNewNumber(event.target.value)
+  }
 
-  return (
+  const handleFilterChange = (event) => {
+    console.log('handleFiletrChange newFilter =', event.target.value)
+    setNewFilter(event.target.value)
+  }
+
+  const filteredPersons = () => {
+    let filteredArr = []
+    if (newFilter === '') {
+      filteredArr = persons.map((person) => person)
+    } else {
+      filteredArr = persons.filter( person => person.name.toLowerCase().includes(newFilter.toLowerCase()))
+    }
+    // console.log('filteredPersons filteredArr =', filteredArr)
+    return filteredArr
+}
+
+    return (
     <div>
       <h2>Phonebook</h2>
+        <div> filter shown with: <input value={newFilter} onChange={handleFilterChange} /> </div>
+      <h3>add a new</h3>
       <form>
+        <div> name: <input value={newName} onChange={handleNameChange} />  </div>
+        <div> number: <input value={newNumber} onChange={handleNumberChange} /> </div>
         <div>
-          name: <input value={newName} onChange={handleNameChange} />
-        </div>
-        <div>
-          <button onClick={addName} type="submit">add</button>
+          <button onClick={addPerson} type="submit">add</button>
         </div>
       </form>
-      <h2>Numbers</h2>
+      <h3>Numbers</h3>
         <ul>
-          {persons.map( person => <li key={person.name}>{person.name}</li>)}
+          {filteredPersons().map( person => <li key={person.name}>{person.name} {person.number}</li>)}
         </ul>
     </div>
-    /* <div>
-      <h1>Notes</h1>
-      <div>
-        <button onClick={ () => setShowAll(!showAll)}>
-          show {showAll ? 'important' : 'all'}
-        </button>
-      </div>
-      <ul>
-        {notesToShow.map(note => <Note key={note.id} note={note} />)}
-      </ul>
-      <form onSubmit={addNote}>
-        <input 
-          value={newNote} 
-          onChange={handleNoteChange}
-          />
-        <button type='submit'>save</button>
-      </form>
-    </div> */
   )
 }
 
