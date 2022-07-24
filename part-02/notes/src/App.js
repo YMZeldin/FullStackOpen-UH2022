@@ -6,6 +6,7 @@ const App = ({ initialNotes }) => {
   const [newNote, setNewNote] = useState('')
   const [showAll, setShowAll] = useState(true)
   
+  // ===========================================================================
   const addNote = (event) => {
     event.preventDefault()
     const noteObject = {
@@ -15,16 +16,18 @@ const App = ({ initialNotes }) => {
       important: Math.random() < 0.5      
     }
     
-    console.log('button clicked', event.target)
+    // console.log('button clicked', event.target)
     setNotes(notes.concat(noteObject))
     setNewNote('')
   }
 
+  // ===========================================================================
   const handleNoteChange = (event) => {
     console.log(event.target.value)
     setNewNote(event.target.value)
   }
 
+  // ===========================================================================
   const notesToShow = showAll ? notes : notes.filter(note => note.important)
 
   return (

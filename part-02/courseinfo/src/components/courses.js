@@ -1,4 +1,4 @@
-// Make output for one of courses
+// Make output for one of the courses ==========================================
 const Course = ({ course }) => {
 
     // new array of elements course.parts.exercises[i]
@@ -7,7 +7,7 @@ const Course = ({ course }) => {
   
     return(
       <div>
-        <h1>{course.name}</h1>
+        <h2>{course.name}</h2>
         <ul>
           {course.parts.map (part => 
             <li key={part.id}>{part.name} - {part.exercises} exercises</li>
@@ -18,11 +18,11 @@ const Course = ({ course }) => {
     )
   }
   
-// Make output for all courses
+// Make output for all courses =================================================
 const Courses = ({ courses }) => {
   return(
     <div>
-      {courses.map (oneCourse => <Course course = {oneCourse} />)}
+      {courses.map (oneCourse => <Course key={oneCourse.id} course = {oneCourse} />)}
     </div>
   )
 }

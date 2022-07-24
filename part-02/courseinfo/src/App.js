@@ -46,10 +46,12 @@ const App = () => {
   }
 ]
 
+  // App return ==================================================================
   return (
-    <>
+    <div>
+      <h1>Web development curriculum</h1>
       <Courses courses = {courses} />
-    </>
+    </div>
   )
 }
 
