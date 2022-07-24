@@ -8,7 +8,7 @@ const App = () => {
   
   // useStste ==================================================================
   const [countries, setCountries] = useState([]) 
-  // const [newName, setNewName] = useState('')
+  const [newShowBtn, setNewShowBtn] = useState('')
   // const [newNumber, setNewNumber] = useState('')
   const [newFilter, setNewFilter] = useState('')
 
@@ -41,7 +41,14 @@ const App = () => {
     return filteredArr
   }
 
-    // App return ================================================================
+   // handle function for show button ==========================================
+   const handleShowBtnClick = (event) => {
+    console.log('handleShowBtnClick event =', event)
+    console.log('handleShowBtnClick event.target.parentElement.FiberNode =', event.target.parentElement)
+    // console.log('handleShowBtnClick event =', event.target.value)
+    // setNewShowBtn(event.target.value)
+  }
+    // App return ==============================================================
   return (
     /* <div>
       <h2>Countries</h2>
@@ -55,7 +62,7 @@ const App = () => {
     <div>
       <h2>Countries</h2>
       <Filter newFilter={newFilter} handleFilterChange={handleFilterChange} />
-      <Countries countries={filteredCountries()}/>
+      <Countries countries={filteredCountries()} handleShowBtnClick={handleShowBtnClick} />
     </div>
   )
 }

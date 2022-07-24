@@ -2,7 +2,7 @@ import React from 'react'
 
 // show countries list =========================================================
 // countries is the array of JSON objects
-const Countries = ({ countries }) => {
+const Countries = ({ countries, handleShowBtnClick }) => {
   
   const langArray = []
   //console.log('Countries countries.length =', countries.length)
@@ -25,9 +25,16 @@ const Countries = ({ countries }) => {
   if (countries.length !== 1) {
     //console.log('Countries countries.length > 1 but < 10')
     return(
-      countries.map( country => <div key={country.name.common}>{country.name.common}</div>)
-      )
-    }
+      countries.map( country => {
+       return(
+        <div key={country.name.common}>
+          <div>{country.name.common}</div>
+          <button onClick={handleShowBtnClick} type="submit">show</button>
+        </div>
+        )
+      })
+    )
+  }
   // one country
   //console.log('Countries countries.length === 1')
   return(
