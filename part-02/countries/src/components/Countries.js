@@ -29,7 +29,7 @@ const Countries = ({ countries, handleShowBtnClick }) => {
        return(
         <div key={country.name.common}>
           <div>{country.name.common}</div>
-          <button onClick={handleShowBtnClick} type="submit">show</button>
+          <button onClick={handleShowBtnClick} type="submit" value={country.name.common}>show</button>
         </div>
         )
       })
@@ -46,7 +46,7 @@ const Countries = ({ countries, handleShowBtnClick }) => {
       <ul>
         {langArray.map( language => <li key={language}>{language}</li>)}
       </ul>
-      <img src={countries[0].flags.png} />
+      <img src={countries[0].flags.png} alt="flag" />
     </div>
   )
 }

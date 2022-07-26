@@ -1,15 +1,12 @@
 import {useState, useEffect} from 'react'
 import axios from 'axios'
 import Filter from './components/Filter'
-import PersonForm from './components/PersonForm'
 import Countries from './components/Countries'
 
 const App = () => {
   
   // useStste ==================================================================
   const [countries, setCountries] = useState([]) 
-  const [newShowBtn, setNewShowBtn] = useState('')
-  // const [newNumber, setNewNumber] = useState('')
   const [newFilter, setNewFilter] = useState('')
 
   // useEffect =================================================================
@@ -43,10 +40,8 @@ const App = () => {
 
    // handle function for show button ==========================================
    const handleShowBtnClick = (event) => {
-    console.log('handleShowBtnClick event =', event)
-    console.log('handleShowBtnClick event.target.parentElement.FiberNode =', event.target.parentElement)
-    // console.log('handleShowBtnClick event =', event.target.value)
-    // setNewShowBtn(event.target.value)
+    // console.log('handleShowBtnClick event.target.value =', event.target.value)
+    setNewFilter(event.target.value)
   }
     // App return ==============================================================
   return (
