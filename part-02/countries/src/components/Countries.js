@@ -1,12 +1,14 @@
 import React from 'react'
+import CountryWeather from './CountryWeather'
 
 // show countries list =========================================================
-// countries is the array of JSON objects
+// countries is the array of JSON objects, 
+// response from https://restcountries.com/v3.1/all
 const Countries = ({ countries, handleShowBtnClick }) => {
   
-  const langArray = []
   //console.log('Countries countries.length =', countries.length)
-
+  const langArray = []
+   
   // convert JSON object countries[0].languages to array of languages string
   if (countries.length === 1) {
     for (const [key, value] of Object.entries(countries[0].languages)) {
@@ -35,11 +37,12 @@ const Countries = ({ countries, handleShowBtnClick }) => {
       })
     )
   }
+  
   // one country
   //console.log('Countries countries.length === 1')
   return(
     <div>
-      <h2>{countries[0].name.common}</h2>
+      <h1>{countries[0].name.common}</h1>
       <div>capital {countries[0].capital}</div>
       <div>area {countries[0].area}</div>
       <h2>languages:</h2>
@@ -47,6 +50,7 @@ const Countries = ({ countries, handleShowBtnClick }) => {
         {langArray.map( language => <li key={language}>{language}</li>)}
       </ul>
       <img src={countries[0].flags.png} alt="flag" />
+      <CountryWeather country={countries[0]} />
     </div>
   )
 }

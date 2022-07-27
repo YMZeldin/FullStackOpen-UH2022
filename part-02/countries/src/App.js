@@ -25,7 +25,7 @@ const App = () => {
     setNewFilter(event.target.value)
   }
 
-  // filtration of countries array (countries => filteredCountries) ==================
+  // filtration of countries array (countries => filteredCountries) ============
   // use external newFilter, countries
   const filteredCountries = () => {
     let filteredArr = []
@@ -45,15 +45,6 @@ const App = () => {
   }
     // App return ==============================================================
   return (
-    /* <div>
-      <h2>Countries</h2>
-      <Filter newFilter={newFilter} handleFilterChange={handleFilterChange} />
-      <h3>Add a new</h3>
-      <PersonForm newName={newName} handleNameChange={handleNameChange} 
-        newNumber={newNumber} handleNumberChange={handleNumberChange} addPerson={addPerson} />
-      <h3>Numbers</h3>
-      <Persons persons={filteredPersons()} />
-    </div> */
     <div>
       <h2>Countries</h2>
       <Filter newFilter={newFilter} handleFilterChange={handleFilterChange} />
