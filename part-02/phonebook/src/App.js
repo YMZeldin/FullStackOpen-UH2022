@@ -31,11 +31,20 @@ const App = () => {
   
     // if name exists, nameExist >= 0, otherwise nameExist === -1
     const nameExist = persons.findIndex(person => person.name === newName)
-    
     //console.log('newName', newName, 'nameExist', nameExist)
-    
     if (nameExist !== -1) {
-      window.alert(`${newName} is already added to phonebook`)
+      if (window.confirm(`${newName} is already added to phonebook. Replace the old number with a new one?`)) {
+        const oldPerson = persons.find(person => person.name === newName)
+        const changedPerson = { ...oldPerson, number: newNumber }
+        dbExchangeService
+          .updatePerson(changedPerson.id, changedPerson)
+          .then(returnedPerson => {
+            setPersons(persons.map(person => person.id !== changedPerson.id ? person : returnedPerson))
+          })
+          .catch(error => {
+            alert(`Error when replacinf ${changedPerson.name} number in the database`)
+          })
+      }
       return
     }
     
