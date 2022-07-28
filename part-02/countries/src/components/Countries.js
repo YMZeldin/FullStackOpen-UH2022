@@ -30,7 +30,7 @@ const Countries = ({ countries, handleShowBtnClick }) => {
       countries.map( country => {
        return(
         <div key={country.name.common}>
-          <div>{country.name.common}</div>
+          {country.name.common}
           <button onClick={handleShowBtnClick} type="submit" value={country.name.common}>show</button>
         </div>
         )

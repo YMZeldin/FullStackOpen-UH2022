@@ -1,8 +1,8 @@
 import {useState, useEffect} from 'react'
-import axios from 'axios'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
+import dbExchangeService from './services/dbExchange'
 
 const App = () => {
   
@@ -14,18 +14,17 @@ const App = () => {
 
   // useEffect =================================================================
   useEffect(() => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        // console.log('promise fulfilled, persons.data', response.data)
-        setPersons(response.data)
+    dbExchangeService
+      .getAllPersons()
+      .then(initialPersons => {
+        setPersons(initialPersons)
       })
-  }, [])
+   }, [])
   
   // Add new person to persons array ===========================================
   const addPerson = (event) => {
     event.preventDefault()
-    const tmpObject = {
+    const newPersonObject = {
       name: newName,
       number: newNumber
     }
@@ -33,17 +32,23 @@ const App = () => {
     // if name exists, nameExist >= 0, otherwise nameExist === -1
     const nameExist = persons.findIndex(person => person.name === newName)
     
-    // console.log('button clicked', event.target)
-    // console.log('newName', newName, 'nameExist', nameExist)
+    //console.log('newName', newName, 'nameExist', nameExist)
     
     if (nameExist !== -1) {
       window.alert(`${newName} is already added to phonebook`)
       return
     }
     
-    setPersons(persons.concat(tmpObject))
-    setNewName('')
-    setNewNumber('')
+    dbExchangeService
+      .createPerson(newPersonObject)
+      .then(returnedPerson => {
+        setPersons(persons.concat(returnedPerson))
+        setNewName('')
+        setNewNumber('')
+      })
+      .catch(error => {
+        alert(`Error when adding ${newPersonObject.name} to the database`)
+      })
   }
 
   // handle function for name change ===========================================
@@ -77,7 +82,26 @@ const App = () => {
     return filteredArr
   }
 
-    // App return ================================================================
+  // handle function for person delete button ==================================
+  const handleDeleteButton = (event) => {
+    event.preventDefault()
+    // event.target.value is person id. Should use '==' to equal
+    const personToDelete = persons.find(person => person.id == event.target.value)
+    if (window.confirm(`Delete ${personToDelete.name} ?`)) {
+      dbExchangeService
+        .deletePerson(personToDelete.id)
+        .then(returnedPerson => {
+          setPersons(persons.filter(person => person.id !== personToDelete.id))
+          setNewName('')
+          setNewNumber('')
+        })
+        .catch(error => {
+          alert(`Error when deleting ${personToDelete.name} from the database`)
+        })
+    }
+  }
+
+  // App return ================================================================
   return (
     <div>
       <h2>Phonebook</h2>
@@ -86,7 +110,7 @@ const App = () => {
       <PersonForm newName={newName} handleNameChange={handleNameChange} 
         newNumber={newNumber} handleNumberChange={handleNumberChange} addPerson={addPerson} />
       <h3>Numbers</h3>
-      <Persons persons={filteredPersons()} />
+      <Persons persons={filteredPersons()} handleDeleteButton={handleDeleteButton} />
     </div>
   )
 }
