@@ -4,6 +4,32 @@ import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 import dbExchangeService from './services/dbExchange'
 
+// notification = {message, style} =============================================
+// notification.style='notification' or 'error'
+const Notification = ({ notification }) => {
+  //console.log('Notification', notification)
+  const baseNotifStyle = {
+    background: 'lightgrey',
+    fontSize: 20,
+    borderStyle: 'solid',
+    borderRadius: 5,
+    padding: 10,
+    marginBottom: 10
+  }
+  const notificationStyle = { ...baseNotifStyle, color: 'green' }
+  const errorStyle = { ...baseNotifStyle, color: 'red' }
+  const currentStyle = (notification.style === 'notification') ? notificationStyle : errorStyle
+  
+  if (notification.message === null || notification.message === '') {
+    return null
+  }
+  return (
+    <div style={currentStyle}>
+      {notification.message}
+    </div>
+  )
+}
+
 const App = () => {
   
   // useStste ==================================================================
@@ -11,6 +37,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newFilter, setNewFilter] = useState('')
+  const [notification, setNewNotification] = useState({message: '', style: 'notification'})
 
   // useEffect =================================================================
   useEffect(() => {
@@ -21,6 +48,16 @@ const App = () => {
       })
    }, [])
   
+   // ==========================================================================
+  const showNotification = (message, notificationStyle ) => {
+    const newNotification = {
+      message: message,
+      style: notificationStyle
+    }
+    setNewNotification(newNotification)
+    setTimeout(() => {setNewNotification({message: '', style: 'notification'})}, 5000)
+  }
+
   // Add new person to persons array ===========================================
   const addPerson = (event) => {
     event.preventDefault()
@@ -40,9 +77,13 @@ const App = () => {
           .updatePerson(changedPerson.id, changedPerson)
           .then(returnedPerson => {
             setPersons(persons.map(person => person.id !== changedPerson.id ? person : returnedPerson))
+            setNewName('')
+            setNewNumber('')
+            showNotification(`${changedPerson.name} number was updated in the phonebook`, 'notification')
           })
           .catch(error => {
-            alert(`Error when replacinf ${changedPerson.name} number in the database`)
+            //alert(`Error when replacing ${changedPerson.name} number in the database`)
+            showNotification(`Error when updating ${changedPerson.name} number in the phonebook`, 'error')
           })
       }
       return
@@ -54,9 +95,11 @@ const App = () => {
         setPersons(persons.concat(returnedPerson))
         setNewName('')
         setNewNumber('')
+        showNotification(`${newPersonObject.name} was added to the phonebook`, 'notification')
       })
       .catch(error => {
-        alert(`Error when adding ${newPersonObject.name} to the database`)
+        // alert(`Error when adding ${newPersonObject.name} to the database`)
+        showNotification(`Error when adding ${newPersonObject.name} to the phonebook`, 'error')
       })
   }
 
@@ -103,9 +146,11 @@ const App = () => {
           setPersons(persons.filter(person => person.id !== personToDelete.id))
           setNewName('')
           setNewNumber('')
+          showNotification(`${personToDelete.name} was deleted from the phonebook`, 'notification')
         })
         .catch(error => {
-          alert(`Error when deleting ${personToDelete.name} from the database`)
+          // alert(`Error when deleting ${personToDelete.name} from the database`)
+          showNotification(`Error when deleting ${personToDelete.name} from the phonebook`, 'error')
         })
     }
   }
@@ -114,6 +159,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification notification={notification} />
       <Filter newFilter={newFilter} handleFilterChange={handleFilterChange} />
       <h3>Add a new</h3>
       <PersonForm newName={newName} handleNameChange={handleNameChange} 
