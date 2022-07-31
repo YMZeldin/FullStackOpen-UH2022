@@ -1,3 +1,3 @@
-# part-03
+# phonebook
 Full stack course at the University of Helsinki https://fullstackopen.com/en/. 
-Exercises 3.1 - 3.22, frontend
+Part 3, phonebook frontend
