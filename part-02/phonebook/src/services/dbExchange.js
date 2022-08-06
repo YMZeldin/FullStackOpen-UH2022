@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseUrl = 'http://localhost:3001/persons'
+const baseUrl = 'http://localhost:3001/api/persons'
 
 const getAllPersons = () => {
   const request = axios.get(baseUrl)
@@ -21,4 +21,5 @@ const deletePerson = (id) => {
   return request.then(response => response.data)
 }
 // The names of the keys and the assigned variables are the same, so
+// eslint-disable-next-line
 export default {getAllPersons, createPerson, updatePerson, deletePerson}

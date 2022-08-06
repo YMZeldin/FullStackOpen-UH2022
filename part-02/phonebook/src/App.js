@@ -138,7 +138,7 @@ const App = () => {
   const handleDeleteButton = (event) => {
     event.preventDefault()
     // event.target.value is person id. Should use '==' to equal
-    const personToDelete = persons.find(person => person.id == event.target.value)
+    const personToDelete = persons.find(person => person.id === Number(event.target.value))
     if (window.confirm(`Delete ${personToDelete.name} ?`)) {
       dbExchangeService
         .deletePerson(personToDelete.id)
