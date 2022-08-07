@@ -32,7 +32,7 @@ const Notification = ({ notification }) => {
 
 const App = () => {
   
-  // useStste ==================================================================
+  // useState ==================================================================
   const [persons, setPersons] = useState([]) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
@@ -137,8 +137,9 @@ const App = () => {
   // handle function for person delete button ==================================
   const handleDeleteButton = (event) => {
     event.preventDefault()
-    // event.target.value is person id. Should use '==' to equal
-    const personToDelete = persons.find(person => person.id === Number(event.target.value))
+    // event.target.value is person id, long string in MongoDB
+    const personToDelete = persons.find(person => person.id === String(event.target.value))
+    // console.log('handleDeleteButton personToDelete', personToDelete)
     if (window.confirm(`Delete ${personToDelete.name} ?`)) {
       dbExchangeService
         .deletePerson(personToDelete.id)
