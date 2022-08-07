@@ -82,8 +82,10 @@ const App = () => {
             showNotification(`${changedPerson.name} number was updated in the phonebook`, 'notification')
           })
           .catch(error => {
-            //alert(`Error when replacing ${changedPerson.name} number in the database`)
-            showNotification(`Error when updating ${changedPerson.name} number in the phonebook`, 'error')
+            const  errorMessage=`Error when updating ${newPersonObject.name} number in the phonebook!
+                   ${error.response.data.error}`
+            showNotification(errorMessage, 'error')
+            console.log('dbExchangeService.updatePerson', errorMessage)
           })
       }
       return
@@ -99,7 +101,10 @@ const App = () => {
       })
       .catch(error => {
         // alert(`Error when adding ${newPersonObject.name} to the database`)
-        showNotification(`Error when adding ${newPersonObject.name} to the phonebook`, 'error')
+        const  errorMessage=`Error when adding ${newPersonObject.name} to the phonebook!
+               ${error.response.data.error}`
+        showNotification(errorMessage, 'error')
+        console.log('dbExchangeService.createPerson', errorMessage)
       })
   }
 
@@ -151,7 +156,9 @@ const App = () => {
         })
         .catch(error => {
           // alert(`Error when deleting ${personToDelete.name} from the database`)
-          showNotification(`Error when deleting ${personToDelete.name} from the phonebook`, 'error')
+          const  errorMessage=`Error when deleting ${personToDelete.name} from the phonebook!
+                 ${error.response.data.error}`
+          showNotification(errorMessage, 'error')
         })
     }
   }
