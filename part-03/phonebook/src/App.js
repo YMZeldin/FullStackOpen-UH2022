@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react'
+import { useState, useEffect } from 'react'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
@@ -19,7 +19,7 @@ const Notification = ({ notification }) => {
   const notificationStyle = { ...baseNotifStyle, color: 'green' }
   const errorStyle = { ...baseNotifStyle, color: 'red' }
   const currentStyle = (notification.style === 'notification') ? notificationStyle : errorStyle
-  
+
   if (notification.message === null || notification.message === '') {
     return null
   }
@@ -31,13 +31,13 @@ const Notification = ({ notification }) => {
 }
 
 const App = () => {
-  
+
   // useState ==================================================================
-  const [persons, setPersons] = useState([]) 
+  const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newFilter, setNewFilter] = useState('')
-  const [notification, setNewNotification] = useState({message: '', style: 'notification'})
+  const [notification, setNewNotification] = useState({ message: '', style: 'notification' })
 
   // useEffect =================================================================
   useEffect(() => {
@@ -46,16 +46,16 @@ const App = () => {
       .then(initialPersons => {
         setPersons(initialPersons)
       })
-   }, [])
-  
-   // ==========================================================================
+  }, [])
+
+  // ==========================================================================
   const showNotification = (message, notificationStyle ) => {
     const newNotification = {
       message: message,
       style: notificationStyle
     }
     setNewNotification(newNotification)
-    setTimeout(() => {setNewNotification({message: '', style: 'notification'})}, 5000)
+    setTimeout(() => {setNewNotification({ message: '', style: 'notification' })}, 5000)
   }
 
   // Add new person to persons array ===========================================
@@ -65,7 +65,7 @@ const App = () => {
       name: newName,
       number: newNumber
     }
-  
+
     // if name exists, nameExist >= 0, otherwise nameExist === -1
     const nameExist = persons.findIndex(person => person.name === newName)
     //console.log('newName', newName, 'nameExist', nameExist)
@@ -90,7 +90,7 @@ const App = () => {
       }
       return
     }
-    
+
     dbExchangeService
       .createPerson(newPersonObject)
       .then(returnedPerson => {
@@ -148,7 +148,8 @@ const App = () => {
     if (window.confirm(`Delete ${personToDelete.name} ?`)) {
       dbExchangeService
         .deletePerson(personToDelete.id)
-        .then(returnedPerson => {
+        // .then(returnedPerson => {
+        .then( () => {
           setPersons(persons.filter(person => person.id !== personToDelete.id))
           setNewName('')
           setNewNumber('')
@@ -170,7 +171,7 @@ const App = () => {
       <Notification notification={notification} />
       <Filter newFilter={newFilter} handleFilterChange={handleFilterChange} />
       <h3>Add a new</h3>
-      <PersonForm newName={newName} handleNameChange={handleNameChange} 
+      <PersonForm newName={newName} handleNameChange={handleNameChange}
         newNumber={newNumber} handleNumberChange={handleNumberChange} addPerson={addPerson} />
       <h3>Numbers</h3>
       <Persons persons={filteredPersons()} handleDeleteButton={handleDeleteButton} />

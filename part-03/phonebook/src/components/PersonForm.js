@@ -4,7 +4,7 @@ import React from 'react'
 // handle name input with handleNameChange function
 // handle phone number input with handleNumberChange function
 // use addPerson function for "add" button
-const PersonForm = ({ newName, handleNameChange, 
+const PersonForm = ({ newName, handleNameChange,
   newNumber, handleNumberChange, addPerson }) => {
   return(
     <form>
