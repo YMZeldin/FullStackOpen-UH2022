@@ -28,6 +28,7 @@ const App = () => {
       .then(blogs => {
         setBlogs(blogs)
       })
+    //console.log(blogs)
   }, [])
 
   // ===========================================================================
@@ -121,7 +122,7 @@ const App = () => {
               <button type="submit">logout</button>
             </p>
           </form>
-          <Togglable buttonLabel='new blog' ref={newBlogFormRef}>
+          <Togglable buttonLabel='create new blog' ref={newBlogFormRef}>
             <CreateBlogForm createNewBlogObject={addBlog} />
           </Togglable>
 
