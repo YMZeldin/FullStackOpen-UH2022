@@ -1,18 +1,38 @@
-import React from 'react'
+import { useState } from 'react'
 
 // form for add a new blog =====================================================
-// handle name input with handleNameChange function
-// handle phone number input with handleNumberChange function
 // use addBlog function for "create" button
-const CreateBlogForm = ({ newBlogTitle, handleNewBlogTitleChange,
-  newBlogAuthor, handleNewBlogAuthorChange,
-  newBlogUrl, handleNewBlogUrlChange, addBlog }) => {
-  return(
-    <form>
-      <div> title: <input value={newBlogTitle} onChange={handleNewBlogTitleChange} /></div>
-      <div> author: <input value={newBlogAuthor} onChange={handleNewBlogAuthorChange} /></div>
-      <div> url: <input value={newBlogUrl} onChange={handleNewBlogUrlChange} /></div>
-      <button onClick={addBlog} type="submit">create</button>
+const CreateBlogForm = ({ createNewBlogObject }) => {
+
+  const [newBlogTitle, setNewBlogTitle] = useState('')
+  const [newBlogAuthor, setNewBlogAuthor] = useState('')
+  const [newBlogUrl, setNewBlogUrl] = useState('')
+
+  const addNewBlog = (event) => {
+    event.preventDefault()
+    createNewBlogObject({
+      title: newBlogTitle,
+      author: newBlogAuthor,
+      url: newBlogUrl
+    })
+
+    setNewBlogTitle('')
+    setNewBlogAuthor('')
+    setNewBlogUrl('')
+  }
+
+  return (
+    <form onSubmit={addNewBlog}>
+      <div> title:
+        <input value={newBlogTitle} onChange={({ target }) => setNewBlogTitle(target.value)} />
+      </div>
+      <div> author:
+        <input value={newBlogAuthor} onChange={({ target }) => setNewBlogAuthor(target.value)} />
+      </div>
+      <div> url:
+        <input value={newBlogUrl} onChange={({ target }) => setNewBlogUrl(target.value)} />
+      </div>
+      <button type="submit">create</button>
     </form>
   )
 }
