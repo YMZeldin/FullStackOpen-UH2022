@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types'
+
 // notification = {message, style} =============================================
 // notification.style='notification' or 'error'
 const Notification = ({ notification }) => {
@@ -22,6 +24,11 @@ const Notification = ({ notification }) => {
       {notification.message}
     </div>
   )
+}
+
+// check property types ========================================================
+Notification.propTypes = {
+  notification: PropTypes.object.isRequired
 }
 
 export default Notification

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import blogService from '../services/blogs'
 import Notification from '../components/Notification'
-import '../index.css'
+import PropTypes from 'prop-types'
 
 // blog = {title, author, url, likes}
 // user = {token, username, name}
@@ -89,5 +89,12 @@ const Blog = ({ blog, user, handleRemoveBlog }) => {
       </div>
     </div>
   )}
+
+// check property types ========================================================
+Blog.propTypes = {
+  blog: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
+  handleRemoveBlog: PropTypes.func.isRequired
+}
 
 export default Blog

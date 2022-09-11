@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import PropTypes from 'prop-types'
 
 // form for add a new blog =====================================================
 // use addBlog function for "create" button
@@ -35,6 +36,11 @@ const CreateBlogForm = ({ createNewBlogObject }) => {
       <button type="submit">create</button>
     </form>
   )
+}
+
+// check property types ========================================================
+CreateBlogForm.propTypes = {
+  createNewBlogObject: PropTypes.func.isRequired
 }
 
 export default CreateBlogForm
