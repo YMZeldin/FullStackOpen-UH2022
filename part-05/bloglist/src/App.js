@@ -26,6 +26,7 @@ const App = () => {
     blogService
       .getAll()
       .then(blogs => {
+        blogs.sort((a, b) => b.likes - a.likes)
         setBlogs(blogs)
       })
     // console.log(blogs)
@@ -89,7 +90,8 @@ const App = () => {
     blogService
       .create(newBlogObject)
       .then(returnedBlog => {
-        console.log(returnedBlog)
+        // console.log(returnedBlog)
+        // blog added has 0 likes, add to the end of array, sort not needed
         setBlogs(blogs.concat(returnedBlog))
         showNotification(`a new blog ${newBlogObject.title} was added to blog list`, 'notification')
       })

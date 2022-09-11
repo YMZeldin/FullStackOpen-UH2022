@@ -35,14 +35,14 @@ const Blog = ({ blog }) => {
   // ==========================================================================
   const updateLikes = () => {
     const newBlogObject = {
-      title: blog.title,
-      author: blog.author,
-      url: blog.url,
-      likes: blog.likes + 1
+      title: currentBlog.title,
+      author: currentBlog.author,
+      url: currentBlog.url,
+      likes: currentBlog.likes + 1
     }
 
     blogService
-      .update(blog.id, newBlogObject)
+      .update(currentBlog.id, newBlogObject)
       .then(returnedBlog => {
         //console.log(returnedBlog)
         setCurrentBlog(returnedBlog)
