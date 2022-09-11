@@ -37,6 +37,7 @@ const App = () => {
     const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
+      // user = {token, username, name}
       setUser(user)
       blogService.setToken(user.token)
     }
@@ -102,6 +103,26 @@ const App = () => {
       })
   }
 
+  // handle function for blog remove button in Blog component ==================
+  const handleRemoveBlog = (event) => {
+    event.preventDefault()
+    // event.target.value is blog id, long string in MongoDB
+    const blogToDelete = blogs.find(blog => blog.id === String(event.target.value))
+
+    if (window.confirm(`Delete ${blogToDelete.title} by ${blogToDelete.author} ?`)) {
+      blogService
+        .remove(blogToDelete.id)
+        .then( () => {
+          setBlogs(blogs.filter(blog => blog.id !== blogToDelete.id))
+          showNotification(`${blogToDelete.title} was deleted from the database`, 'notification')
+        })
+        .catch(error => {
+          const  errorMessage=`Error when deleting ${blogToDelete.title} from the database!\n${error.response.data.error}`
+          showNotification(errorMessage, 'error')
+        })
+    }
+  }
+
   // ===========================================================================
   return (
     <div>
@@ -127,7 +148,11 @@ const App = () => {
             <CreateBlogForm createNewBlogObject={addBlog} />
           </Togglable>
 
-          {blogs.map(blog => <Blog key={blog.id} blog={blog} />)}
+          {blogs.map(blog => <Blog
+            key={blog.id}
+            blog={blog}
+            user={user}
+            handleRemoveBlog={handleRemoveBlog} />)}
         </div>
       }
     </div>

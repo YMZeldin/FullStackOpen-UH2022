@@ -1,8 +1,11 @@
 import { useState } from 'react'
 import blogService from '../services/blogs'
 import Notification from '../components/Notification'
+import '../index.css'
 
-const Blog = ({ blog }) => {
+// blog = {title, author, url, likes}
+// user = {token, username, name}
+const Blog = ({ blog, user, handleRemoveBlog }) => {
 
   const [showDetails, setShowDetails] = useState(false)
   const [currentBlog, setCurrentBlog] = useState(blog)
@@ -60,7 +63,7 @@ const Blog = ({ blog }) => {
     <div style={blogStyle}>
       <Notification notification={notification} />
       <div>
-        {currentBlog.title} {currentBlog.author}
+        {currentBlog.title} by {currentBlog.author}
         {showDetails ?
           <button onClick={viewDetails} type="submit">hide</button> :
           <button onClick={viewDetails} type="submit">view</button>
@@ -74,6 +77,12 @@ const Blog = ({ blog }) => {
               <button onClick={updateLikes} type="submit">like</button>
             </div>
             <div>{currentBlog.user.name}</div>
+            <div>
+              {user.name === currentBlog.user.name ?
+                <button style={{ background: 'lightpink' }} onClick={handleRemoveBlog} value={currentBlog.id} type="submit">remove</button> :
+                null
+              }
+            </div>
           </div> :
           null
         }
