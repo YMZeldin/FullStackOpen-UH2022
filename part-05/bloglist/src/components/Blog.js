@@ -2,6 +2,7 @@ import { useState } from 'react'
 import blogService from '../services/blogs'
 import Notification from '../components/Notification'
 import PropTypes from 'prop-types'
+import '../index.css'
 
 // blog = {title, author, url, likes}
 // user = {token, username, name}
@@ -79,7 +80,7 @@ const Blog = ({ blog, user, handleRemoveBlog }) => {
             <div>{currentBlog.user.name}</div>
             <div>
               {user.name === currentBlog.user.name ?
-                <button style={{ background: 'lightpink' }} onClick={handleRemoveBlog} value={currentBlog.id} type="submit">remove</button> :
+                <button className='actionButton' onClick={handleRemoveBlog} value={currentBlog.id} type="submit">remove</button> :
                 null
               }
             </div>
