@@ -1,7 +1,7 @@
 // notification = {message, style} =============================================
 // notification.style='notification' or 'error'
 const Notification = ({ notification }) => {
-  //console.log('Notification', notification)
+
   const baseNotifStyle = {
     background: 'lightgrey',
     fontSize: 20,

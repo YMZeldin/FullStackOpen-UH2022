@@ -28,7 +28,7 @@ const App = () => {
       .then(blogs => {
         setBlogs(blogs)
       })
-    //console.log(blogs)
+    // console.log(blogs)
   }, [])
 
   // ===========================================================================
@@ -47,6 +47,7 @@ const App = () => {
       message: message,
       style: notificationStyle
     }
+    // console.log(newNotification)
     setNotification(newNotification)
     setTimeout(() => {setNotification({ message: '', style: 'notification' })}, 5000)
   }
@@ -88,16 +89,14 @@ const App = () => {
     blogService
       .create(newBlogObject)
       .then(returnedBlog => {
-        //console.log(response)
+        console.log(returnedBlog)
         setBlogs(blogs.concat(returnedBlog))
         showNotification(`a new blog ${newBlogObject.title} was added to blog list`, 'notification')
       })
       .catch(error => {
         // alert(`Error when adding ${newBlogObject.title} to the database`)
-        const errorMessage=`Error when adding ${newBlogObject.title} to the blog list!
-               ${error.response.data.error}`
+        const errorMessage=`Error when adding ${newBlogObject.title} to the blog list!\n${error.response.data.error}`
         showNotification(errorMessage, 'error')
-        // console.log('blogService.create', errorMessage)
       })
   }
 
