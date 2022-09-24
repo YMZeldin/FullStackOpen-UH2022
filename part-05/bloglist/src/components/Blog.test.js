@@ -22,12 +22,17 @@ describe('<Blog />', () => {
     name: 'Yury Zeldin'
   }
 
+  const mockHandleUpdateLikes = jest.fn()
   const mockHandleRemoveBlog = jest.fn()
 
   // =============================================================================
   test('initial renders content', () => {
 
-    render(<Blog blog={blog} user={user} handleRemoveBlog={mockHandleRemoveBlog} />)
+    render(<Blog 
+      blog={blog} 
+      user={user} 
+      handleUpdateLikes={mockHandleUpdateLikes}
+      handleRemoveBlog={mockHandleRemoveBlog} />)
     // screen.debug()
 
     const element1 = screen.getByText('Canonical string reduction by Edsger W. Dijkstra')
@@ -44,7 +49,11 @@ describe('<Blog />', () => {
   // ===========================================================================
   test('content after view button click', async () => {
 
-    render(<Blog blog={blog} user={user} handleRemoveBlog={mockHandleRemoveBlog} />)
+    render(<Blog 
+      blog={blog} 
+      user={user} 
+      handleUpdateLikes={mockHandleUpdateLikes}
+      handleRemoveBlog={mockHandleRemoveBlog} />)
 
     const interactiveUser = userEvent.setup()
     const button = screen.getByText('view')
@@ -63,4 +72,26 @@ describe('<Blog />', () => {
     expect(element3).toBeDefined()
   })
 
+  // ===========================================================================
+  test('likes button was clicked twice', async () => {
+
+    render(<Blog 
+      blog={blog} 
+      user={user} 
+      handleUpdateLikes={mockHandleUpdateLikes}
+      handleRemoveBlog={mockHandleRemoveBlog} />)
+
+    // show blog content
+    const interactiveUser = userEvent.setup()
+    const buttonView = screen.getByText('view')
+    await interactiveUser.click(buttonView)
+  
+    const buttonLike = screen.getByText('like')
+    await interactiveUser.click(buttonLike)
+    await interactiveUser.click(buttonLike)
+
+    // screen.debug()
+
+    expect(mockHandleUpdateLikes.mock.calls).toHaveLength(2)
+  })
 })

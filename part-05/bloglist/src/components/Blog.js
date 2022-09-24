@@ -1,16 +1,12 @@
 import { useState } from 'react'
-import blogService from '../services/blogs'
-import Notification from '../components/Notification'
 import PropTypes from 'prop-types'
 import '../index.css'
 
 // blog = {title, author, url, likes}
 // user = {token, username, name}
-const Blog = ({ blog, user, handleRemoveBlog }) => {
+const Blog = ({ blog, user, handleUpdateLikes, handleRemoveBlog }) => {
 
   const [showDetails, setShowDetails] = useState(false)
-  const [currentBlog, setCurrentBlog] = useState(blog)
-  const [notification, setNotification] = useState({ message: '', style: 'notification' })
 
   const blogStyle = {
     paddingTop: 10,
@@ -25,46 +21,10 @@ const Blog = ({ blog, user, handleRemoveBlog }) => {
     // console.log(showDetails)
   }
 
-  // ==========================================================================
-  const showNotification = (message, notificationStyle ) => {
-    const newNotification = {
-      message: message,
-      style: notificationStyle
-    }
-    // console.log(newNotification)
-    setNotification(newNotification)
-    setTimeout(() => {setNotification({ message: '', style: 'notification' })}, 5000)
-  }
-
-  // ==========================================================================
-  const updateLikes = () => {
-    const newBlogObject = {
-      title: currentBlog.title,
-      author: currentBlog.author,
-      url: currentBlog.url,
-      likes: currentBlog.likes + 1
-    }
-
-    blogService
-      .update(currentBlog.id, newBlogObject)
-      .then(returnedBlog => {
-        //console.log(returnedBlog)
-        setCurrentBlog(returnedBlog)
-        //setBlogs(blogs.concat(returnedBlog))
-        //showNotification(`a new blog ${newBlogObject.title} was added to blog list`, 'notification')
-      })
-      .catch(error => {
-        const errorMessage=`Error when updating likes for ${newBlogObject.title}. \n${error.response.data.error}`
-        showNotification(errorMessage, 'error')
-        // console.log(errorMessage)
-      })
-  }
-
   return (
     <div style={blogStyle}>
-      <Notification notification={notification} />
       <div>
-        {currentBlog.title} by {currentBlog.author}
+        {blog.title} by {blog.author}
         {showDetails ?
           <button onClick={viewDetails} type="submit">hide</button> :
           <button onClick={viewDetails} type="submit">view</button>
@@ -73,14 +33,14 @@ const Blog = ({ blog, user, handleRemoveBlog }) => {
       <div>
         {showDetails ?
           <div>
-            <div>{currentBlog.url}</div>
-            <div>likes {currentBlog.likes}
-              <button onClick={updateLikes} type="submit">like</button>
+            <div>{blog.url}</div>
+            <div>likes {blog.likes}
+              <button onClick={handleUpdateLikes} value={blog.id} type="submit">like</button>
             </div>
-            <div>{currentBlog.user.name}</div>
+            <div>{blog.user.name}</div>
             <div>
-              {user.name === currentBlog.user.name ?
-                <button className='actionButton' onClick={handleRemoveBlog} value={currentBlog.id} type="submit">remove</button> :
+              {user.name === blog.user.name ?
+                <button className='actionButton' onClick={handleRemoveBlog} value={blog.id} type="submit">remove</button> :
                 null
               }
             </div>

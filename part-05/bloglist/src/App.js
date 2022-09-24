@@ -103,6 +103,34 @@ const App = () => {
       })
   }
 
+  // handle function for update likes button in Blog component =================
+  const handleUpdateLikes = (event) => {
+    event.preventDefault()
+    // event.target.value is blog id, long string in MongoDB
+    const blogToUpdate = blogs.find(blog => blog.id === String(event.target.value))
+
+    const newBlogObject = {
+      title: blogToUpdate.title,
+      author: blogToUpdate.author,
+      url: blogToUpdate.url,
+      likes: blogToUpdate.likes + 1
+    }
+
+    blogService
+      .update(blogToUpdate.id, newBlogObject)
+      .then(returnedBlog => {
+        //console.log(returnedBlog)
+        const newBlogs = blogs.map(blog => blog.id === blogToUpdate.id ? returnedBlog : blog)
+        //console.log(newBlogs)
+        setBlogs(newBlogs)
+      })
+      .catch(error => {
+        const errorMessage=`Error when updating likes for ${newBlogObject.title}. \n${error.response.data.error}`
+        showNotification(errorMessage, 'error')
+        // console.log(errorMessage)
+      })
+  }
+
   // handle function for blog remove button in Blog component ==================
   const handleRemoveBlog = (event) => {
     event.preventDefault()
@@ -152,6 +180,7 @@ const App = () => {
             key={blog.id}
             blog={blog}
             user={user}
+            handleUpdateLikes={handleUpdateLikes}
             handleRemoveBlog={handleRemoveBlog} />)}
         </div>
       }
