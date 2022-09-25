@@ -122,22 +122,46 @@ describe('Blog app', function() {
       cy.contains('likes 1')
     })
 
-    it('create more new blogs', function () {
+    it('user who created blog can delete it', function() {
+      // ymzeldin logged in
       cy.createBlog({
-        title: 'new blog 1 created for test',
-        author: 'cypress 1',
+        title: 'new blog created for test',
+        author: 'cypress',
         url: 'https://www.cypress1.io'
       })
-      cy.createBlog({
-        title: 'new blog 2 created for test',
-        author: 'cypress 2',
-        url: 'https://www.cypress1.io'
-      })
-      cy.createBlog({
-        title: 'new blog 3 created for test',
-        author: 'cypress 3',
-        url: 'https://www.cypress1.io'
-      })
+      cy.contains('new blog created for test by cypress')
+      // open blog details
+      cy.contains('new blog created for test').parent().find('button').as('viewButton')
+      cy.get('@viewButton').click()
+      // component with CSS class '.actionButton'
+      cy.get('.actionButton').should('contain', 'remove')
+      cy.get('.actionButton').click()
+      // check notification
+      cy.get('#notification')
+        .should('contain', 'new blog created for test was deleted from the database')
+        .and('have.css', 'color', 'rgb(0, 128, 0)')
+      // cy.get('html') accesses the whole visible content of the application
+      cy.get('html').should('not.contain', 'new blog created for test by cypress')
     })
+
+    it('user who not created blog cannot delete it', function() {
+      // ymzeldin logged in
+      cy.createBlog({
+        title: 'new blog created for test',
+        author: 'cypress',
+        url: 'https://www.cypress1.io'
+      })
+      cy.contains('new blog created for test by cypress')
+            
+      // login as another user
+      cy.contains('logout').click()
+      cy.login({ username: 'mluukkai', password: 'MLuukkai_Passw' })
+      // open blog details
+      cy.contains('new blog created for test').parent().find('button').as('viewButton')
+      cy.get('@viewButton').click()
+      // no remove button on page
+      cy.get('.actionButton').should('not.exist')
+    })
+   
   })
 })
