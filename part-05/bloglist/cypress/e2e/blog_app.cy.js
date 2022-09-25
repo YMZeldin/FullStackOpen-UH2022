@@ -28,7 +28,8 @@ describe('Blog app', function() {
     cy.contains('login')
   })
 
-  describe('login',function() {
+  describe('login', function() {
+    
     it('succeeds with correct credentials', function() {
       cy.contains('login, please').click()
       cy.get('#username').type('ymzeldin')
@@ -53,6 +54,24 @@ describe('Blog app', function() {
   
       // cy.get('html') accesses the whole visible content of the application
       cy.get('html').should('not.contain', 'Yury Zeldin logged in')
+    })
+  })
+
+  describe('when logged in', function() {
+    
+    beforeEach(function() {
+      // login bypassing UI, using cypress custom commands cypress/support/commands.js
+      cy.login({ username: 'ymzeldin', password: 'YMZeldin_Passw' })
+    })
+
+    it('new blog can be created', function() {
+      cy.get('button[id="create new blog"]').click()
+      cy.get('#title').type('new blog created for test')
+      cy.get('#author').type('cypress')
+      cy.get('#url').type('https://www.cypress,io')
+
+      cy.get('#create').click()
+      cy.contains('new blog created for test by cypress')
     })
   })
 
