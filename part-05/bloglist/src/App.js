@@ -122,7 +122,8 @@ const App = () => {
         //console.log(returnedBlog)
         const newBlogs = blogs.map(blog => blog.id === blogToUpdate.id ? returnedBlog : blog)
         //console.log(newBlogs)
-        setBlogs(newBlogs)
+        const newBlogsSorted = newBlogs.sort((a, b) => b.likes - a.likes)
+        setBlogs(newBlogsSorted)
       })
       .catch(error => {
         const errorMessage=`Error when updating likes for ${newBlogObject.title}. \n${error.response.data.error}`

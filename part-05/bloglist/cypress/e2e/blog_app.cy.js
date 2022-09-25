@@ -163,5 +163,48 @@ describe('Blog app', function() {
       cy.get('.actionButton').should('not.exist')
     })
    
+    it('blogs are ordered according to likes', function() {
+      // ymzeldin logged in
+      cy.createBlog({
+        title: 'new blog 1 created for test',
+        author: 'cypress',
+        url: 'https://www.cypress1.io'
+      })
+      cy.createBlog({
+        title: 'new blog 2 created for test',
+        author: 'cypress',
+        url: 'https://www.cypress1.io'
+      })
+      cy.createBlog({
+        title: 'new blog 3 created for test',
+        author: 'cypress',
+        url: 'https://www.cypress1.io'
+      })
+      
+      // login as another user (to can like blogs)
+      cy.contains('logout').click()
+      cy.login({ username: 'mluukkai', password: 'MLuukkai_Passw' })
+      // open blog details for blog 3
+      cy.contains('new blog 3 created for test').parent().find('button').as('viewButton3')
+      cy.get('@viewButton3').click()
+      cy.contains('new blog 3 created for test').parent().find('button[id="like"]').as('likeButton3')
+      cy.get('@likeButton3').click()
+      // wait for changing the number of likes before next click
+      cy.contains('likes 1')
+      cy.get('@likeButton3').click()
+      cy.contains('likes 2')
+      // open blog details for blog 2
+      cy.contains('new blog 2 created for test').parent().find('button').as('viewButton2')
+      cy.get('@viewButton2').click()
+      cy.contains('new blog 2 created for test').parent().find('button[id="like"]').as('likeButton2')
+      cy.get('@likeButton2').click()
+      // wait for changing the number of likes before next click
+      cy.contains('likes 1')
+
+      // check blogs order
+      cy.get('[data-cy="blog"]').eq(0).should('contain', 'new blog 3 created for test')
+      cy.get('[data-cy="blog"]').eq(1).should('contain', 'new blog 2 created for test')
+      cy.get('[data-cy="blog"]').eq(2).should('contain', 'new blog 1 created for test')
+    })
   })
 })

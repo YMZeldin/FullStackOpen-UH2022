@@ -22,7 +22,7 @@ const Blog = ({ blog, user, handleUpdateLikes, handleRemoveBlog }) => {
   }
 
   return (
-    <div style={blogStyle}>
+    <div style={blogStyle} data-cy='blog'>
       <div>
         {blog.title} by {blog.author}
         {showDetails ?
