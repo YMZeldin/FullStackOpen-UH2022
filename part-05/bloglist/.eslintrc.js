@@ -4,12 +4,14 @@ module.exports = {
     'commonjs': true,
     'es2021': true,
     'es6': true,
-    'jest/globals': true
+    'jest/globals': true,
+    'cypress/globals': true
   },
   'extends': [
     'eslint:recommended',
     'plugin:react/recommended',
-    'plugin:react/jsx-runtime'
+    'plugin:react/jsx-runtime',
+    'plugin:cypress/recommended'
   ],
   'parserOptions': {
     'ecmaFeatures': {
